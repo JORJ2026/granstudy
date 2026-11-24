@@ -4,32 +4,117 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#bfe9ff">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Study Time">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Gran’s Study Time</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'">
+<title>Gran’s Study Time</title>
+<meta name="description" content="Gran’s Study Time: a math tutor, spelling practice and the Elk River Bandit game. Free, ad-free, private and works offline.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gran’s Study Time">
+<meta property="og:description" content="Math practice, spelling games and Elk River Bandit — free, private and works offline.">
+<meta property="og:image" content="icons/og-image.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gran’s Study Time">
+<meta name="twitter:description" content="Math practice, spelling games and Elk River Bandit — free, private and works offline.">
+<meta name="twitter:image" content="icons/og-image.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<a class="skip" href="#home">Skip to apps</a>
+<div id="offline" role="status" hidden>📡 You’re offline — your games still work.</div>
 <div id="shell">
-  <div id="bar"><button class="back" id="hb" aria-label="Back to Study Time home">🏠</button><b id="bt"></b><span class="rt"><button class="mini" id="mb" aria-label="Mobile view" aria-pressed="false">📱</button><button class="mini" id="cb" aria-label="Collapse header">▲</button></span></div>
+  <div id="bar"><button class="back" id="hb" aria-label="Back to Study Time home">🏠</button><b id="bt"></b><span class="rt"><button class="mini" id="fs" aria-label="Full screen" title="Full screen">⛶</button><button class="mini" id="mb" aria-label="Mobile view" aria-pressed="false">📱</button><button class="mini" id="cb" aria-label="Collapse header">▲</button></span></div>
   <button id="tab" aria-label="Show header">🏠 ▼</button>
   <main id="home">
     <div class="wrap">
+      <div class="topbtns"><button class="mini" id="progbtn" aria-label="My progress" title="My progress">🏆</button><button class="mini" id="setbtn" aria-label="Settings" title="Settings">⚙️</button></div>
       <div class="hero" id="hero" role="button" tabindex="0" aria-label="Quack">🦆 ✏️</div>
       <h1>Gran’s Study Time</h1>
+      <p class="greet" id="greet" aria-live="polite"></p>
+      <div class="chips" id="chips">
+        <div class="ring" id="ring" role="img" aria-label="Daily goal"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" class="rbg"/><circle cx="22" cy="22" r="18" class="rfg" id="rfg"/></svg><b id="rtxt">0</b></div>
+        <div class="chip" id="streakchip"><span>🔥</span><b id="streakn">0</b><small>day streak</small></div>
+        <div class="chip" id="todaychip"><span>⏱️</span><b id="todayn">0</b><small>min today</small></div>
+      </div>
+      <button class="cont" id="cont" hidden></button>
       <div class="apps">
         <button class="app math" data-a="math"><span>🔢</span>Gran’s Math Tutor<small>Practice, learn &amp; play games</small></button>
         <button class="app wordsb" data-a="words"><span>📝</span>Practice<small>Spelling games &amp; quizzes</small></button>
         <button class="app riverb" data-a="river"><span>🦝</span>Elk River Bandit<small>Run, jump &amp; spell</small></button>
       </div>
-      <button class="mtoggle" id="mhome" aria-pressed="false">📱 Mobile view: <b>Off</b></button>
+      <div class="homebtns">
+        <button class="mtoggle" id="mhome" aria-pressed="false">📱 Mobile view: <b>Off</b></button>
+        <button class="mtoggle" id="installbtn" hidden>⬇️ Install app</button>
+        <button class="mtoggle" id="sharebtn">🔗 Share</button>
+      </div>
       <p class="mtip" id="mtip" hidden>Tip: in Safari tap Share → Add to Home Screen to play full-screen.</p>
+      <nav class="foot" aria-label="More">
+        <a href="about.html">About</a> · <a href="help.html">Help</a> · <a href="privacy.html">Privacy</a> · <a href="#" id="kbdlink">Shortcuts</a> · <span id="ver">v1.0.0</span>
+      </nav>
+      <noscript><p class="mtip"><b>Study Time needs JavaScript.</b> Please turn it on in your browser settings.</p></noscript>
     </div>
   </main>
+  <div id="loading" hidden role="status" aria-live="polite"><div class="spin" aria-hidden="true">🦆</div><p id="loadmsg">Loading…</p><div id="loaderr" hidden><p>This is taking a while.</p><button class="mini wide" id="retry">Try again</button> <button class="mini wide" id="loadhome">Home</button></div></div>
 </div>
+<div id="storewarn" hidden role="alert">⚠️ Your browser is blocking saved data, so progress can’t be kept. Try turning off private browsing.</div>
+<div id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<dialog id="dlgSet" aria-labelledby="tSet"><form method="dialog" class="dlg">
+  <h2 id="tSet">⚙️ Settings</h2>
+  <label class="row">Player name<input id="sName" type="text" maxlength="20" autocomplete="off" placeholder="Your name"></label>
+  <label class="row">Sound<select id="sSound"><option value="on">On</option><option value="off">Off (all apps)</option></select></label>
+  <label class="row">Theme<select id="sTheme"><option value="auto">Match my device</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+  <label class="row">Text size<select id="sText"><option value="100">Normal</option><option value="115">Large</option><option value="130">Extra large</option></select></label>
+  <label class="row">Reduce motion<select id="sMotion"><option value="auto">Match my device</option><option value="on">On</option><option value="off">Off</option></select></label>
+  <label class="row">Daily goal<select id="sGoal"><option value="0">No goal</option><option value="5">5 minutes</option><option value="10">10 minutes</option><option value="15">15 minutes</option><option value="20">20 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option></select></label>
+  <label class="row">Break reminder<select id="sBreak"><option value="0">Off</option><option value="15">Every 15 minutes</option><option value="20">Every 20 minutes</option><option value="30">Every 30 minutes</option></select></label>
+  <label class="row">Keep screen awake<select id="sWake"><option value="off">Off</option><option value="on">While playing</option></select></label>
+  <h3>Your data</h3>
+  <div class="btnrow"><button type="button" class="mini wide" id="bBackup">⬇️ Download backup</button><button type="button" class="mini wide" id="bRestore">⬆️ Restore backup</button><input type="file" id="fRestore" accept="application/json,.json" hidden></div>
+  <div class="btnrow"><button type="button" class="mini wide danger" id="bErase">🗑️ Erase everything</button></div>
+  <details class="diag"><summary>About &amp; diagnostics</summary><pre id="diagTxt"></pre><div class="btnrow"><button type="button" class="mini wide" id="bDiag">📋 Copy diagnostics</button><button type="button" class="mini wide" id="bUpdate">🔄 Check for updates</button></div></details>
+  <div class="btnrow"><button class="mini wide pri" value="close">Done</button></div>
+</form></dialog>
+
+<dialog id="dlgProg" aria-labelledby="tProg"><form method="dialog" class="dlg">
+  <h2 id="tProg">🏆 My progress</h2>
+  <div id="progBody"></div>
+  <div class="btnrow"><button class="mini wide pri" value="close">Close</button></div>
+</form></dialog>
+
+<dialog id="dlgTour" aria-labelledby="tTour"><form method="dialog" class="dlg">
+  <h2 id="tTour">Welcome! 🦆</h2>
+  <p id="tourTxt"></p>
+  <div class="dots" id="tourDots" aria-hidden="true"></div>
+  <div class="btnrow"><button type="button" class="mini wide" id="tourSkip">Skip</button><button type="button" class="mini wide pri" id="tourNext">Next</button></div>
+</form></dialog>
+
+<dialog id="dlgKeys" aria-labelledby="tKeys"><form method="dialog" class="dlg">
+  <h2 id="tKeys">⌨️ Shortcuts</h2>
+  <table><tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>Open Math, Practice, Bandit</td></tr><tr><td><kbd>Esc</kbd></td><td>Back to home</td></tr><tr><td><kbd>S</kbd></td><td>Settings</td></tr><tr><td><kbd>P</kbd></td><td>My progress</td></tr><tr><td><kbd>?</kbd></td><td>This list</td></tr></table>
+  <div class="btnrow"><button class="mini wide pri" value="close">Close</button></div>
+</form></dialog>
+
+<dialog id="dlgConfirm" aria-labelledby="tConf"><form method="dialog" class="dlg">
+  <h2 id="tConf">Are you sure?</h2><p id="confTxt"></p>
+  <div class="btnrow"><button class="mini wide" value="no">Cancel</button><button class="mini wide danger" value="yes">Yes, do it</button></div>
+</form></dialog>
+
+<div id="rotate" hidden role="status">🔄 Turn your device sideways for the best view of Elk River Bandit.</div>
 <div class="tag">JORJ2026</div>
+<script src="version.js"></script>
 <script src="quack.js"></script>
 <script src="hub.js"></script>
+<script src="launch.js"></script>
 </body>
 </html>

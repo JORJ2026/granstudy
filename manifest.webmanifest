@@ -1,0 +1,22 @@
+{
+  "name": "Gran’s Study Time",
+  "short_name": "Study Time",
+  "description": "Math practice, spelling games and Elk River Bandit — all in one place.",
+  "start_url": "./index.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#bfe9ff",
+  "theme_color": "#bfe9ff",
+  "categories": ["education", "kids", "games"],
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Math Tutor", "url": "./index.html#math", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]},
+    {"name": "Practice", "url": "./index.html#words", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]},
+    {"name": "Elk River Bandit", "url": "./index.html#river", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]}
+  ]
+}
